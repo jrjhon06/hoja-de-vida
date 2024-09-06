@@ -1,41 +1,38 @@
-let menuVisible = false;
-//Función que oculta o muestra el menu
 function mostrarOcultarMenu(){
-    if(menuVisible){
-        document.getElementById("nav").classList ="";
-        menuVisible = false;
-    }else{
-        document.getElementById("nav").classList ="responsive";
-        menuVisible = true;
-    }
+    let nav = document.getElementById("nav");
+    nav.classList.toggle("responsive"); 
+    menuVisible = !menuVisible;  // Alterna el estado del menú
 }
 
 function seleccionar(){
-    //oculto el menu una vez que selecciono una opcion
-    document.getElementById("nav").classList = "";
+    document.getElementById("nav").classList.remove("responsive");
     menuVisible = false;
 }
-//Funcion que aplica las animaciones de las habilidades
+let debounceTimer;
 function efectoHabilidades(){
-    var skills = document.getElementById("skills");
-    var distancia_skills = window.innerHeight - skills.getBoundingClientRect().top;
-    if(distancia_skills >= 300){
-        let habilidades = document.getElementsByClassName("progreso");
-        habilidades[0].classList.add("javascript");
-        habilidades[1].classList.add("htmlcss");
-        habilidades[2].classList.add("cisco");
-        habilidades[3].classList.add("wordpress");
-        habilidades[4].classList.add("cms");
-        habilidades[5].classList.add("comunicacion");
-        habilidades[6].classList.add("trabajo");
-        habilidades[7].classList.add("creatividad");
-        habilidades[8].classList.add("creatividad");
-        habilidades[9].classList.add("proyect");
-    }
+    clearTimeout(debounceTimer); // Limpia el temporizador
+    debounceTimer = setTimeout(() => {
+        var skills = document.getElementById("skills");
+        var distancia_skills = window.innerHeight - skills.getBoundingClientRect().top;
+        if(distancia_skills >= 300){
+            let habilidades = document.getElementsByClassName("progreso");
+            habilidades[0].classList.add("javascript");
+            habilidades[1].classList.add("htmlcss");
+            habilidades[2].classList.add("cisco");
+            habilidades[3].classList.add("wordpress");
+            habilidades[4].classList.add("cms");
+            habilidades[5].classList.add("comunicacion");
+            habilidades[6].classList.add("trabajo");
+            habilidades[7].classList.add("creatividad");
+            habilidades[8].classList.add("creatividad");
+            habilidades[9].classList.add("proyect");
+        }
+    }, 100);  // 100 ms de espera antes de ejecutar la animación
 }
 
-
-//detecto el scrolling para aplicar la animacion de la barra de habilidades
-window.onscroll = function(){
-    efectoHabilidades();
-} 
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      item.classList.add('active'); // Añade la clase active al elemento clickeado
+    });
+});
